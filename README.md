@@ -6,6 +6,12 @@ extends [getintodevops/jenkins-withdocker](https://hub.docker.com/r/getintodevop
 
 ```
 docker pull waterticket/jenkins-withdocker-all-architecture
-docker run -p 9090:8080 -v /var/run/docker.sock:/var/run/docker.sock waterticket/jenkins-withdocker-all-architecture --name jenkins
+docker run -d -p 9090:8080 -v /var/run/docker.sock:/var/run/docker.sock waterticket/jenkins-withdocker-all-architecture --name jenkins
 ```
 Then jenkins runs in `localhost:9090`
+
+
+# Get initial admin password
+```
+docker exec -it jenkins /bin/sh -c "cat /var/jenkins_home/secrets/initialAdminPassword"
+```
