@@ -6,7 +6,7 @@ extends [getintodevops/jenkins-withdocker](https://hub.docker.com/r/getintodevop
 
 ```
 docker pull waterticket/jenkins-withdocker-all-architecture
-docker run -d --restart unless-stopped -p 9090:8080 -v /var/run/docker.sock:/var/run/docker.sock waterticket/jenkins-withdocker-all-architecture --name jenkins
+docker run -d --restart unless-stopped --name jenkins -p 9090:8080 -v /var/run/docker.sock:/var/run/docker.sock waterticket/jenkins-withdocker-all-architecture
 ```
 Then jenkins runs in `localhost:9090`  
 If you can't connect, check if the port 9090 is not blocked by the firewall.
