@@ -13,7 +13,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check new jenkins docker update date
-        run: hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts-jdk17") | .last_updated')
+        run: |
+          hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts-jdk17") | .last_updated')
+          echo "hub_last_update_date: $hub_last_update_date"
 
       - name: Get current update date
         run: last_update_date=$(cat last_update_date.txt)
