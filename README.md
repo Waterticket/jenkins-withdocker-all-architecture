@@ -1,4 +1,11 @@
-# jenkins-withdocker-all-architecture
+# Jenkins with docker: all architectures (arm64/amd64)
+
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) 
+![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white)  
+![Docker pulls](https://img.shields.io/docker/pulls/waterticket/jenkins-withdocker-all-architecture) 
+![Docker Image Version (tag)](https://img.shields.io/docker/v/waterticket/jenkins-withdocker-all-architecture/latest)  
+
+Dockerhub : [waterticket/jenkins-withdocker-all-architecture](https://hub.docker.com/r/waterticket/jenkins-withdocker-all-architecture)  
 
 extends [getintodevops/jenkins-withdocker](https://hub.docker.com/r/getintodevops/jenkins-withdocker) with all architectures (arm64, amd64, etc,,)
 
