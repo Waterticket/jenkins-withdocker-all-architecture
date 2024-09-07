@@ -17,7 +17,7 @@ jobs:
         run: |
           hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts-jdk17") | .last_updated')
           echo "hub_last_update_date: $hub_last_update_date"
-          echo "hub_last_update_date=$hub_last_update_date" >> $GITHUB_ENV
+          echo "HUB_LAST_UPDATE_DATE=$hub_last_update_date" >> $GITHUB_ENV
 
           last_update_date=$(cat last_update_date.txt)
           echo "last_update_date: $last_update_date"
@@ -36,6 +36,7 @@ jobs:
           docker pull jenkins/jenkins:lts-jdk17
           jenkins_version=$(docker inspect jenkins/jenkins:lts-jdk17 --format '{{ index .Config.Labels "org.opencontainers.image.version" }}')
           echo "Jenkins version: $jenkins_version"
+          echo "JENKINS_VERSION=$jenkins_version" >> $GITHUB_ENV
 
       - name: Docker Setup QEMU
         if: env.UPDATE_PROCESS == 'true'
@@ -54,7 +55,7 @@ jobs:
       
       - name: Build Image with version tag
         if: env.UPDATE_PROCESS == 'true'
-        run: docker buildx build --platform linux/arm64,linux/amd64 --push --tag waterticket/jenkins-withdocker-all-architecture:${jenkins_version} .
+        run: docker buildx build --platform linux/arm64,linux/amd64 --push --tag waterticket/jenkins-withdocker-all-architecture:${{ env.JENKINS_VERSION }} .
 
       - name: Build Image with latest tag
         if: env.UPDATE_PROCESS == 'true'
@@ -62,7 +63,7 @@ jobs:
 
       - name: Save new update date
         if: env.UPDATE_PROCESS == 'true'
-        run: echo "${{ env.hub_last_update_date }}" > last_update_date.txt
+        run: echo "${{ env.HUB_LAST_UPDATE_DATE }}" > last_update_date.txt
 
       - name: Set date in environment variable
         run: echo "DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
