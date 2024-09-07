@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
       - id: check_update
         name: Check if new update is available
@@ -66,9 +69,11 @@ jobs:
         run: echo "${{ env.HUB_LAST_UPDATE_DATE }}" > last_update_date.txt
 
       - name: Set date in environment variable
+        if: env.UPDATE_PROCESS == 'true'
         run: echo "DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
 
       - name: Commit & Push changes
+        if: env.UPDATE_PROCESS == 'true'
         uses: Andro999b/push@patch-1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
