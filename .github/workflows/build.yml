@@ -17,6 +17,7 @@ jobs:
         run: |
           hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts-jdk17") | .last_updated')
           echo "hub_last_update_date: $hub_last_update_date"
+          echo "hub_last_update_date=$hub_last_update_date" >> $GITHUB_ENV
 
           last_update_date=$(cat last_update_date.txt)
           echo "last_update_date: $last_update_date"
@@ -61,7 +62,7 @@ jobs:
 
       - name: Save new update date
         if: env.UPDATE_PROCESS == 'true'
-        run: echo $hub_last_update_date > last_update_date.txt
+        run: echo "${{ env.hub_last_update_date }}" > last_update_date.txt
 
       - name: Set date in environment variable
         run: echo "DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
