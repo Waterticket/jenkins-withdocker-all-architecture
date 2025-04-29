@@ -18,7 +18,7 @@ jobs:
       - id: check_update
         name: Check if new update is available
         run: |
-          hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts-jdk17") | .last_updated')
+          hub_last_update_date=$(curl -s https://hub.docker.com/v2/namespaces/jenkins/repositories/jenkins/tags?page_size=100 | jq -r '.results[] | select(.name == "lts") | .last_updated')
           echo "hub_last_update_date: $hub_last_update_date"
           echo "HUB_LAST_UPDATE_DATE=$hub_last_update_date" >> $GITHUB_ENV
 
@@ -36,8 +36,8 @@ jobs:
       - name: Get jenkins version
         if: env.UPDATE_PROCESS == 'true'
         run: |
-          docker pull jenkins/jenkins:lts-jdk17
-          jenkins_version=$(docker inspect jenkins/jenkins:lts-jdk17 --format '{{ index .Config.Labels "org.opencontainers.image.version" }}')
+          docker pull jenkins/jenkins:lts
+          jenkins_version=$(docker inspect jenkins/jenkins:lts --format '{{ index .Config.Labels "org.opencontainers.image.version" }}')
           echo "Jenkins version: $jenkins_version"
           echo "JENKINS_VERSION=$jenkins_version" >> $GITHUB_ENV
 
