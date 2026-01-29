@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk17
+FROM jenkins/jenkins:lts
 MAINTAINER matthew218@naver.com
 USER root
 
